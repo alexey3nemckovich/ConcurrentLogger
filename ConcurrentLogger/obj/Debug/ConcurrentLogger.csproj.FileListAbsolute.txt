@@ -1,0 +1,1 @@
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\ConcurrentLogger\bin\Debug\ConcurrentLogger.exe.config
