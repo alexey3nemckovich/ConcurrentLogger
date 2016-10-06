@@ -17,21 +17,27 @@ namespace ConcurrentLogger
             }
             int bufferLimit = 2;
             logger = new Logger(bufferLimit, targets);
-            new Thread(firstThreadFunc).Start();
-            new Thread(secondThreadFunc).Start();
+            Thread[] threads = new Thread[10];
+            for (int i = 0; i < 10; i++)
+            {
+                threads[i] = new Thread(ThreadLogFunc);
+            }
+            Thread.Sleep(300);
+            for (int i = 0; i < 10; i++)
+            {
+                threads[i].Start();
+            }
             System.Console.ReadLine();
         }
 
-        static void firstThreadFunc()
+        static void ThreadLogFunc()
         {
-            logger.Log(new LogInfo(LogLevel.INFO, "firstThread log 1"));
-            logger.Log(new LogInfo(LogLevel.INFO, "firstThread log 2"));
-        }
-
-        static void secondThreadFunc()
-        {
-            logger.Log(new LogInfo(LogLevel.INFO, "secondThread log 1"));
-            logger.Log(new LogInfo(LogLevel.INFO, "secondThread log 2"));
+            for(int i = 0; i < 4; i++)
+            {
+                logger.Log(new LogInfo(LogLevel.INFO, "task " + i + " of thread №" + Thread.CurrentThread.ManagedThreadId + " Start"));
+                Thread.Sleep(1000);
+                logger.Log(new LogInfo(LogLevel.INFO, "task " + i + " of thread №" + Thread.CurrentThread.ManagedThreadId + " End"));
+            }
         }
 
     }

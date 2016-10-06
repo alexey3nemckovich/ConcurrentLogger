@@ -1,25 +1,42 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ConcurrentLogger
 {
 
-    public class LoggerTargetFlushingTaskPool : ILoggerTargetFlushingTaskPool
+    public class LoggerTargetFlushingTaskPool : ILoggerTargetFlushingTaskPool<int>
     {
 
         private Task<bool>[] flushingTasks;
         private ILoggerTarget[] loggerTargets;
+        private object threadLocker;
+        private SortedSet<int> threadNumbersSortedSet;
 
         public LoggerTargetFlushingTaskPool(ILoggerTarget[] loggerTargets)
         {
             this.loggerTargets = loggerTargets;
             flushingTasks = new Task<bool>[loggerTargets.Length];
+            threadLocker = new object();
+            threadNumbersSortedSet = new SortedSet<int>();
         }
 
-        public void FlushAllTargets(ILogInfo[] logsInfo)
+        public void FlushAllTargets(IFlushingThreadData<int> flushingThreadData)
         {
-            for(int i = 0; i < loggerTargets.Length; i++)
+            lock(threadLocker)
             {
-                flushingTasks[i] = loggerTargets[i].FlushAsync(logsInfo);
+                threadNumbersSortedSet.Add(flushingThreadData.Data);
+                while (threadNumbersSortedSet.Min != flushingThreadData.Data)
+                {
+                    Monitor.Wait(threadLocker);
+                }
+                for (int i = 0; i < loggerTargets.Length; i++)
+                {
+                    loggerTargets[i].Flush(flushingThreadData.LogsInfo);
+                    //flushingTasks[i] = loggerTargets[i].FlushAsync(flushingThreadData.LogsInfo);
+                }
+                threadNumbersSortedSet.Remove(flushingThreadData.Data);
+                Monitor.Pulse(threadLocker);
             }
         }
 

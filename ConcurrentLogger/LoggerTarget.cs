@@ -7,34 +7,38 @@ namespace ConcurrentLogger
 
     public class LoggerTarget : ILoggerTarget
     {
-
+        
         public static int count = 1;
-        public int id = count++;
+        private int id = count++;
         private String fileName;
 
-        public LoggerTarget()
+        public LoggerTarget() : this(@".\Target")
         {
-            this.fileName = @".\Target" + id + "LogFile.txt";
+
         }
 
         public LoggerTarget(String fileName)
         {
-            this.fileName = fileName;
+            this.fileName = fileName + id + ".txt";
+        }
+
+        public int ID
+        {
+            get
+            {
+                return id;
+            }
         }
 
         public bool Flush(ILogInfo[] logsInfo)
         {
-            foreach (LogInfo logInfo in logsInfo)
-            {
-                System.Console.WriteLine("[{0}] {1} {2}. id - {3}", logInfo.Time, logInfo.LogLevel, logInfo.Message, id);
-            }
-            /*StreamWriter streamWriter = new StreamWriter(fileName, true);
-            foreach(ILogInfo logInfo in logsInfo)
+            StreamWriter streamWriter = new StreamWriter(fileName, true);
+            foreach (ILogInfo logInfo in logsInfo)
             {
                 streamWriter.WriteLine("[{0}] {1} {2}.", logInfo.Time, logInfo.LogLevel, logInfo.Message);
             }
             streamWriter.Flush();
-            streamWriter.Close();*/
+            streamWriter.Close();
             return true;
         }
 

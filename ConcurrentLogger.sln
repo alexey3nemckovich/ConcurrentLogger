@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConcurrentLogger", "ConcurrentLogger\ConcurrentLogger.csproj", "{F1D6DBE7-48DC-4C0E-9880-13E3FC8147E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConcurrentLogger", "TestConcurrentLogger\TestConcurrentLogger.csproj", "{DE4C7740-2093-4CE8-8F7E-5854F6B118B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F1D6DBE7-48DC-4C0E-9880-13E3FC8147E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1D6DBE7-48DC-4C0E-9880-13E3FC8147E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1D6DBE7-48DC-4C0E-9880-13E3FC8147E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE4C7740-2093-4CE8-8F7E-5854F6B118B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE4C7740-2093-4CE8-8F7E-5854F6B118B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE4C7740-2093-4CE8-8F7E-5854F6B118B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE4C7740-2093-4CE8-8F7E-5854F6B118B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

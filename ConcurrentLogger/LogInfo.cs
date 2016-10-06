@@ -7,13 +7,13 @@ namespace ConcurrentLogger
     {
         public LogLevel logLevel;
         public string message;
-        public string eventTime;
+        public DateTime eventTime;
 
         public LogInfo(LogLevel logLevel, string message)
         {
             this.logLevel = logLevel;
             this.message = message;
-            this.eventTime = DateTime.Now.ToString();//("h:mm:ss tt");
+            this.eventTime = DateTime.Now;
         }
 
         public LogLevel LogLevel
@@ -32,7 +32,7 @@ namespace ConcurrentLogger
             }
         }
 
-        public String Time
+        public DateTime Time
         {
             get
             {

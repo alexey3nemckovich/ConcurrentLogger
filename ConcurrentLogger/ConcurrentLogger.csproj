@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FlushingThreadData.cs" />
+    <Compile Include="IFlushingThreadData.cs" />
     <Compile Include="ILogInfo.cs" />
     <Compile Include="LoggerTarget.cs" />
     <Compile Include="LoggerTargetFlushingTaskPool.cs" />

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace ConcurrentLogger
 {
 
-    interface ILoggerTargetFlushingTaskPool
+    interface ILoggerTargetFlushingTaskPool<T>
     {
-        void FlushAllTargets(ILogInfo[] logsInfo);
+        void FlushAllTargets(IFlushingThreadData<T> flushingThreadData);
         bool AllTargetsWereFlushed { get; }
         void WaitAllTasksToFlush();
     }

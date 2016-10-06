@@ -1,0 +1,8 @@
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\TestConcurrentLogger\obj\Debug\TestConcurrentLogger.csprojResolveAssemblyReference.cache
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\TestConcurrentLogger\bin\Debug\TestConcurrentLogger.dll
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\TestConcurrentLogger\bin\Debug\TestConcurrentLogger.pdb
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\TestConcurrentLogger\bin\Debug\ConcurrentLogger.exe
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\TestConcurrentLogger\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\TestConcurrentLogger\bin\Debug\ConcurrentLogger.pdb
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\TestConcurrentLogger\obj\Debug\TestConcurrentLogger.dll
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\TestConcurrentLogger\obj\Debug\TestConcurrentLogger.pdb
