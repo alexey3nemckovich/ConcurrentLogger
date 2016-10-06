@@ -22,7 +22,6 @@ namespace ConcurrentLogger
             {
                 threads[i] = new Thread(ThreadLogFunc);
             }
-            Thread.Sleep(300);
             for (int i = 0; i < 10; i++)
             {
                 threads[i].Start();
