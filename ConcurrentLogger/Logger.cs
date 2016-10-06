@@ -10,7 +10,7 @@
         private int bufferLimit;
         private int countEvents;
 
-        public Logger(int bufferLimit, ILoggerTarget[] targets)
+        public Logger(int bufferLimit, LoggerTarget[] targets)
         {
             if (bufferLimit < 1)
             {
@@ -62,6 +62,7 @@
 
         private void ResetCounter()
         {
+            logsInfo = new ILogInfo[bufferLimit];
             countEvents = 0;
         }
 

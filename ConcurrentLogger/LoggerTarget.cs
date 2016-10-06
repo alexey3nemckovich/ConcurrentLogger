@@ -24,7 +24,7 @@ namespace ConcurrentLogger
 
         public bool Flush(ILogInfo[] logsInfo)
         {
-            foreach (ILogInfo logInfo in logsInfo)
+            foreach (LogInfo logInfo in logsInfo)
             {
                 System.Console.WriteLine("[{0}] {1} {2}. id - {3}", logInfo.Time, logInfo.LogLevel, logInfo.Message, id);
             }
