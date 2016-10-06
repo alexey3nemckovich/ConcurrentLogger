@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoggerTargetFlushingThreadPool.cs" />
+    <Compile Include="ILogInfo.cs" />
+    <Compile Include="LoggerTarget.cs" />
+    <Compile Include="LoggerTargetFlushingTaskPool.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="ILoggerTarget.cs" />
-    <Compile Include="ILoggerTargetFlushingThreadPool.cs" />
+    <Compile Include="ILoggerTargetFlushingTaskPool.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="LogInfo.cs" />
     <Compile Include="LogLevel.cs" />

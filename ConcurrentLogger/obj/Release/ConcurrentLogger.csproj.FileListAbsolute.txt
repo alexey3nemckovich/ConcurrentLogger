@@ -1,0 +1,5 @@
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\ConcurrentLogger\bin\Release\ConcurrentLogger.exe.config
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\ConcurrentLogger\bin\Release\ConcurrentLogger.exe
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\ConcurrentLogger\bin\Release\ConcurrentLogger.pdb
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\ConcurrentLogger\obj\Release\ConcurrentLogger.exe
+D:\Учёба\Предметы\Сем 5\Лабораторные\СПП\ConcurrentLogger\ConcurrentLogger\obj\Release\ConcurrentLogger.pdb

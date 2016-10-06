@@ -4,8 +4,9 @@
     public class Logger : ILogger
     {
 
-        private ILoggerTargetFlushingThreadPool loggerTargetFlushingThreadPool;       
-        private LogInfo[] logsInfo;
+        private object threadLock;
+        private ILoggerTargetFlushingTaskPool loggerTargetFlushingThreadPool;       
+        private ILogInfo[] logsInfo;
         private int bufferLimit;
         private int countEvents;
 
@@ -15,29 +16,52 @@
             {
                 throw new System.ArgumentException("Buffer limite should be a positive number");
             }
-            loggerTargetFlushingThreadPool = new LoggerTargetFlushingThreaPool(targets);
-            logsInfo = new LogInfo[bufferLimit];
+            loggerTargetFlushingThreadPool = new LoggerTargetFlushingTaskPool(targets);
+            logsInfo = new ILogInfo[bufferLimit];
             this.bufferLimit = bufferLimit;
+            threadLock = new object();
+            countEvents = 0;
         }
 
-        public void Log(LogLevel logLevel, string message)
+        public void Log(ILogInfo logInfo)
         {
+            lock(threadLock)
+            {
+                logsInfo[countEvents] = logInfo;
+                countEvents++;
+                if (NeedToFlush())
+                {
+                    FlushAllTargets();
+                }
+            }
+        }
 
-            logsInfo[countEvents] = new LogInfo(logLevel, message);
-            countEvents++;
+        private bool NeedToFlush()
+        {
             if(countEvents == bufferLimit)
             {
-                if(!loggerTargetFlushingThreadPool.AllTargetsWereFlushed)
-                {
-                    loggerTargetFlushingThreadPool.WaitAllTasksToFlush();
-                }
-                loggerTargetFlushingThreadPool.FlushAllTargets(logsInfo);
+                return true;
             }
+            return false;
+        }
+
+        private void FlushAllTargets()
+        {
+            WriteLogsToTargets();
+            ResetCounter();
         }
 
         private void WriteLogsToTargets()
         {
-            logsInfo = new LogInfo[bufferLimit];
+            if (!loggerTargetFlushingThreadPool.AllTargetsWereFlushed)
+            {
+                loggerTargetFlushingThreadPool.WaitAllTasksToFlush();
+            }
+            loggerTargetFlushingThreadPool.FlushAllTargets(logsInfo);
+        }
+
+        private void ResetCounter()
+        {
             countEvents = 0;
         }
 

@@ -3,7 +3,7 @@
 namespace ConcurrentLogger
 {
 
-    public struct LogInfo
+    public struct LogInfo : ILogInfo
     {
         public LogLevel logLevel;
         public string message;
@@ -13,7 +13,31 @@ namespace ConcurrentLogger
         {
             this.logLevel = logLevel;
             this.message = message;
-            this.eventTime = DateTime.Now.ToString("h:mm:ss tt");
+            this.eventTime = DateTime.Now.ToString();//("h:mm:ss tt");
+        }
+
+        public LogLevel LogLevel
+        {
+            get
+            {
+                return logLevel;
+            }
+        }
+
+        public String Message
+        {
+            get
+            {
+                return message;
+            }
+        }
+
+        public String Time
+        {
+            get
+            {
+                return eventTime;
+            }
         }
 
     }

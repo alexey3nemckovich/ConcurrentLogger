@@ -3,7 +3,7 @@
 
     interface ILogger
     {
-        void Log(LogLevel logLevel, string message);
+        void Log(ILogInfo logInfo);
     }
 
 }
