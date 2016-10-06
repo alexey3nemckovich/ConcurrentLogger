@@ -60,10 +60,6 @@ namespace ConcurrentLogger
         private void WriteLogsToTargets(Object flushingThreadDataObj)
         {
             IFlushingThreadData<int> flushingThreadData = (IFlushingThreadData<int>)flushingThreadDataObj;
-            if (!loggerTargetFlushingThreadPool.AllTargetsWereFlushed)
-            {
-                loggerTargetFlushingThreadPool.WaitAllTasksToFlush();
-            }
             loggerTargetFlushingThreadPool.FlushAllTargets(flushingThreadData);
         }
 

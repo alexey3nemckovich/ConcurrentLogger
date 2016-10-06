@@ -30,10 +30,11 @@ namespace ConcurrentLogger
                 {
                     Monitor.Wait(threadLocker);
                 }
+                WaitAllTasksToFlush();
                 for (int i = 0; i < loggerTargets.Length; i++)
                 {
-                    loggerTargets[i].Flush(flushingThreadData.LogsInfo);
-                    //flushingTasks[i] = loggerTargets[i].FlushAsync(flushingThreadData.LogsInfo);
+                    //loggerTargets[i].Flush(flushingThreadData.LogsInfo);
+                    flushingTasks[i] = loggerTargets[i].FlushAsync(flushingThreadData.LogsInfo);
                 }
                 threadNumbersSortedSet.Remove(flushingThreadData.Data);
                 Monitor.Pulse(threadLocker);
@@ -42,7 +43,10 @@ namespace ConcurrentLogger
 
         public void WaitAllTasksToFlush()
         {
-            Task.WaitAll(flushingTasks);
+            if(!AllTargetsWereFlushed)
+            {
+                Task.WaitAll(flushingTasks);
+            }
         }
 
         public bool AllTargetsWereFlushed
