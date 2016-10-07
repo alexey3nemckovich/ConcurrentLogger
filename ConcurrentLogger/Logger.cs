@@ -14,7 +14,7 @@ namespace ConcurrentLogger
         private int countEvents;
         private int lastStartedThreadNumber;
 
-        public Logger(int bufferLimit, LoggerTarget[] targets)
+        public Logger(int bufferLimit, ILoggerTarget[] targets)
         {
             if (bufferLimit < 1)
             {

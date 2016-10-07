@@ -3,6 +3,7 @@
 namespace ConcurrentLogger
 {
 
+    [Serializable()]
     public struct LogInfo : ILogInfo
     {
         public LogLevel logLevel;
@@ -38,6 +39,11 @@ namespace ConcurrentLogger
             {
                 return eventTime;
             }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("[{0}] {1} {2}.", eventTime, logLevel, message);
         }
 
     }

@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using ConcurrentLogger;
 using System.Threading;
+using System.Net.Sockets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestConcurrentLogger
@@ -13,6 +14,8 @@ namespace TestConcurrentLogger
     {
 
         static Logger logger;
+        static IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+        static int portNumber = 50000;
 
         static void TestThreadFunction()
         {
@@ -25,19 +28,33 @@ namespace TestConcurrentLogger
         }
         
         [TestMethod]
-        public void TestLoggingChronology()
+        public void TestFileLoggerChronology()
         {
             int countThreads = 3;
             String logFileName = @".\Log";
-            logger = new Logger(2, new LoggerTarget[] { new LoggerTarget(logFileName) });
-            ThreadManager.ExecuteAndWaitAllThreads(countThreads, TestThreadFunction);
-            bool allThreadsLoggedInCorrectChronology = AllThreadsLoggedInCorrectChronology(countThreads, logFileName);
+            logger = new Logger(2, new ILoggerTarget[] { new LoggerTarget(logFileName) });
+            ThreadManager.StartAndWaitAllThreads(new Thread[countThreads], TestThreadFunction);
+            bool allThreadsLoggedInCorrectChronology = CheckFileLogChronology(logFileName);
             Assert.AreEqual(allThreadsLoggedInCorrectChronology, true);
         }
 
-        private bool AllThreadsLoggedInCorrectChronology(int countThreads, String logFileName)
+        [TestMethod]
+        public void TestUDPLoggerChronology()
         {
-            Dictionary<int, DateTime> threadsLastLoggingTime = new Dictionary<int, DateTime>();
+            int countThreads = 3;
+            logger = new Logger(2, new ILoggerTarget[] { new UDPLoggerTarget(portNumber, ipAddress) });
+            Thread udpLogListenerThread = new Thread(new ParameterizedThreadStart(CheckPortLogChronology));
+            Thread[] loggingThreads = new Thread[countThreads];
+            ThreadManager.StartAllThreads(loggingThreads, TestThreadFunction);
+            udpLogListenerThread.IsBackground = true;
+            udpLogListenerThread.Priority = ThreadPriority.Highest;
+            udpLogListenerThread.Start(portNumber);
+            ThreadManager.WaitAllThreadsToFinish(loggingThreads);
+            Thread.Sleep(2000);
+        }
+
+        private bool CheckFileLogChronology(String logFileName)
+        {
             StreamReader streamReader = new StreamReader(String.Format(@".\{0}1.txt", logFileName));
             DateTime lastLogTime = new DateTime();
             while (!streamReader.EndOfStream)
@@ -57,6 +74,25 @@ namespace TestConcurrentLogger
                 }
             }
             return true;
+        }
+
+        private void CheckPortLogChronology(Object portNumberObj)
+        {
+            int portNumber = (int)portNumberObj;
+            UdpClient udpClient = new UdpClient(new IPEndPoint(ipAddress, portNumber));
+            DateTime lastLogTime = default(DateTime);
+            while(true)
+            {
+                IPEndPoint senderIpEndPoint = null;
+                byte[] data = udpClient.Receive(ref senderIpEndPoint);
+                ILogInfo[] logsInfo = ObjectConverters<ILogInfo[]>.ByteArrayConverter.TargetTypeToObject(data);//ByteArrayToObject(data);
+                if(lastLogTime != default(DateTime))
+                {
+                    Assert.AreEqual(lastLogTime <= logsInfo[0].Time, true);
+                }
+                lastLogTime = logsInfo[0].Time;
+                Console.WriteLine(lastLogTime);
+            }
         }
 
     }

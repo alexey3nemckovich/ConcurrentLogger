@@ -6,20 +6,19 @@ namespace TestConcurrentLogger
     public static class ThreadManager
     {
 
-        public static void ExecuteAndWaitAllThreads(int threadsCount, ThreadStart threadFunction)
+        public static void StartAndWaitAllThreads(Thread[] threads, ThreadStart threadFunction)
         {
-            Thread[] threads = new Thread[threadsCount];
-            InitAndStartAllThreads(threads, threadFunction);
+            StartAllThreads(threads, threadFunction);
             WaitAllThreadsToFinish(threads);
         }
 
-        public static void InitAndStartAllThreads(Thread[] testThreads, ThreadStart threadStart)
+        public static void StartAllThreads(Thread[] threads, ThreadStart threadStart)
         {
-            int threadsCount = testThreads.Length;
+            int threadsCount = threads.Length;
             for (int i = 0; i < threadsCount; i++)
             {
-                testThreads[i] = new Thread(threadStart);
-                testThreads[i].Start();
+                threads[i] = new Thread(threadStart);
+                threads[i].Start();
             }
         }
 
@@ -30,6 +29,19 @@ namespace TestConcurrentLogger
             {
                 threads[i].Join();
             }
+        }
+
+        public static bool AllThreadsFinished(Thread[] threads)
+        {
+            int threadsCount = threads.Length;
+            for (int i = 0; i < threadsCount; i++)
+            {
+                if(threads[i].IsAlive)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
     }

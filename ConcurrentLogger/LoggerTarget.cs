@@ -35,7 +35,7 @@ namespace ConcurrentLogger
             StreamWriter streamWriter = new StreamWriter(fileName, true);
             foreach (ILogInfo logInfo in logsInfo)
             {
-                streamWriter.WriteLine("[{0}] {1} {2}.", logInfo.Time, logInfo.LogLevel, logInfo.Message);
+                streamWriter.WriteLine(logInfo);
             }
             streamWriter.Flush();
             streamWriter.Close();
